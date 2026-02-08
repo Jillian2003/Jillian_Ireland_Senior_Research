@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Wise Up Wednesday: Who Am I?</title>
+<style>
+    body {
+        margin: 0;
+        font-family: "Trebuchet MS", sans-serif;
+        background-color: #36ad92;
+        color: white;
+        text-align: center;
+    }
+
+    h1 {
+        color: #ffffff;
+        font-size:32px;
+    }
+
+    h2{
+        color: #ffffff;
+    }
+
+    button {
+        background-color: #ffffff;
+        padding: 15px 25px;
+        margin: 10px;
+        font-size: 1rem;
+        cursor: pointer;
+        border-radius: 8px;
+        font-weight: bold;
+    }
+
+    button:hover {
+        background-color: #ffffff;
+    }
+
+    .page {
+        display: none;
+        padding: 40px 20px;
+        max-width: 900px;
+        margin: auto;
+    }
+
+    .active {
+        display: block;
+    }
+
+    .cover img {
+        width: 950px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+    }
+
+    #countdown {
+        font-size: 6rem;
+        margin: 40px 0;
+        color: #ffffff;
+    }
+
+    #prompt {
+        font-size: 28px;
+        margin: 30px;
+        min-height: 120px;
+    }
+
+    #timer {
+        font-size: 1.2rem;
+        margin-top: 15px;
+    }
+
+    .instructions {
+        background: white;
+        color: #006747;
+        padding: 30px;
+        border-radius: 12px;
+        text-align: left;
+        line-height: 1.6;
+    }
+
+    .back {
+        background: white;
+        color: #006747;
+    }
+
+    .subtitle {
+        font-size: 1.2rem;
+        color: #ffffff;
+    }
+
+    /* Center Bingo content and style prompt */
+    #bingo { text-align: center; }
+    #prompt {
+        display: block;
+        font-size: 30px;
+        font-weight: bold;
+        margin: 30px auto;
+        max-width: 800px;
+        color: #ffffff;
+        padding: 20px 24px;
+        border-radius: 16px;
+    }
+    #timer { display: block; }
+</style>
+</head>
+<body>
+
+<!-- AUDIO -->
+<audio id="music" autoplay loop>
+    <source src="wiseup.mp3" type="audio/mpeg">
+</audio>
+
+<!-- HOME PAGE -->
+<div id="home" class="page active cover">
+    <img src="c:\Users\jilli\Downloads\WISE Up Wednesday Presentation Deck.jpg" alt="Wise Up Wednesday Cover">
+    <h1>Who Am I?</h1>
+    <p class="subtitle">Wise Up Wednesday • February 4, 2026</p>
+
+    <button onclick="showPage('bingo')">Identity Bingo</button>
+    <button onclick="showPage('identityMap')">Identity Map</button>
+    <button onclick="showPage('valuesMap')">Values Map</button>
+</div>
+
+<!-- BINGO PAGE -->
+<div id="bingo" class="page">
+    <h1 style="font-size:80px;color:#ffffff;">Identity Bingo</h1>
+
+    <button onclick="startBingo()">Start</button>
+    <button onclick="pauseBingo()">Pause</button>
+    <button class="back" onclick="goHome()">Back to Wise Up Wednesday</button>
+
+    <div id="countdown"></div>
+    <div id="prompt"></div>
+    <div id="timer"></div>
+    <button id="nextBtn" style="display:none;" onclick="nextPrompt()">Next Prompt</button>
+</div>
+
+<!-- IDENTITY MAP PAGE -->
+<div id="identityMap" class="page">
+    <h1>Identity Mapping</h1>
+
+    <div class="instructions">
+        <p><strong>What to Do:</strong></p>
+        <p>You’ll complete an Identity Mapping worksheet provided to you.</p>
+
+        <ul>
+            <li>Write down different parts of who you are that shape your identity</li>
+            <li>Reflect on why each part matters to you</li>
+            <li>Think about how these parts show up in your academic, social, or personal life</li>
+        </ul>
+
+        <p>We’ll complete the worksheet together.</p>
+
+        <p>You’ll see an example first to help guide you, then you’ll be invited to share if you feel comfortable.</p>
+
+        <p>Sharing is encouraged but never required — you can always pass.</p>
+
+        <p>This is a respectful, supportive space. Listen actively and honor each other’s experiences.</p>
+    </div>
+
+    <button class="back" onclick="goHome()">Back to Wise Up Wednesday</button>
+</div>
+
+<!-- VALUES MAP PAGE -->
+<div id="valuesMap" class="page">
+    <h1>Values Mapping</h1>
+
+    <div class="instructions">
+        <p><strong>What to Do:</strong></p>
+
+        <p>You’ll complete a Values Mapping worksheet provided to you.</p>
+
+        <ul>
+            <li>Identify personal values that matter most to you</li>
+            <li>Reflect on what each value means in your life</li>
+            <li>Consider how these values show up in different areas of your life</li>
+        </ul>
+
+        <p>We’ll work through this together.</p>
+
+        <p>You’ll hear an example first, then you’ll be invited to share one value and a reflection if you’d like.</p>
+
+        <p>Sharing is always optional.</p>
+    </div>
+
+    <button class="back" onclick="goHome()">Back to Wise Up Wednesday</button>
+</div>
+
+<script>
+const prompts = [
+"I have changed my major during college",
+"I have met a public figure, speaker, or notable guest on campus",
+"I have traveled to at least three different countries",
+"I feel that college has significantly changed who I am",
+"I am left-handed",
+"I commute to campus instead of living in student housing",
+"I play a specific instrument",
+"I am bilingual or multilingual",
+"I had a pet growing up that meant a lot to me",
+"I have a very fixed morning routine during the semester",
+"I am attending college far from my hometown",
+"I am passionate about a specific social issue",
+"I prefer studying in libraries rather than in my room",
+"I have a favorite class that has nothing to do with my major",
+"I am active on campus through volunteering or service projects",
+"I am the firstborn child in my family",
+"I have a creative hobby like painting, writing, or photography",
+"I have presented in front of a large group on campus",
+"I have studied or lived outside the U.S. before",
+"I have taken a class that completely changed my perspective",
+"I consistently wake up early for classes",
+"I have a cultural tradition that I actively celebrate",
+"I work a part-time job while taking classes",
+"I am heavily involved in at least one campus club or organization"
+];
+
+let promptIndex = 0;
+let nextButtonTimer;
+let nextButtonInterval;
+let secondsLeft = 7;
+let paused = false;
+let order = [];
+let orderPos = 0;
+
+function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+function goHome() {
+    clearTimeout(nextButtonTimer);
+    clearInterval(nextButtonInterval);
+    showPage('home');
+}
+
+function startBingo() {
+    let count = 5;
+    document.getElementById("countdown").innerText = count;
+    const nextBtn = document.getElementById("nextBtn");
+    nextBtn.style.display = "none";
+
+    // Prepare randomized order
+    order = Array.from({ length: prompts.length }, (_, i) => i);
+    shuffle(order);
+    orderPos = 0;
+
+    let countdownInterval = setInterval(() => {
+        count--;
+        if (count === 0) {
+            clearInterval(countdownInterval);
+            document.getElementById("countdown").innerText = "";
+            showPrompt();
+        } else {
+            document.getElementById("countdown").innerText = count;
+        }
+    }, 1000);
+}
+
+function showPrompt() {
+    // Clear any previous delay timer
+    clearTimeout(nextButtonTimer);
+    clearInterval(nextButtonInterval);
+
+    // Current prompt from randomized order
+    promptIndex = order[orderPos];
+
+    // Show prompt text in the prompt container
+    const promptEl = document.getElementById("prompt");
+    promptEl.textContent = prompts[promptIndex];
+
+    // After 7 seconds, reveal Next button
+    startNextDelay();
+}
+
+function pauseBingo() {
+    paused = !paused;
+    const nextBtn = document.getElementById("nextBtn");
+    if (paused) {
+        // Stop the delay; keep current state
+        clearTimeout(nextButtonTimer);
+        clearInterval(nextButtonInterval);
+    } else {
+        // Restart the delay afresh
+        nextBtn.style.display = "none";
+        startNextDelay();
+    }
+}
+
+function startNextDelay() {
+    const nextBtn = document.getElementById("nextBtn");
+    nextBtn.style.display = "none";
+    secondsLeft = 7;
+    const timerEl = document.getElementById("timer");
+    timerEl.textContent = `Next in: ${secondsLeft}s`;
+
+    // Update countdown every second, then reveal Next when done
+    nextButtonInterval = setInterval(() => {
+        if (paused) return;
+        secondsLeft -= 1;
+        if (secondsLeft > 0) {
+            timerEl.textContent = `Next in: ${secondsLeft}s`;
+        } else {
+            clearInterval(nextButtonInterval);
+            nextButtonInterval = null;
+            timerEl.textContent = "";
+            nextBtn.style.display = "inline-block";
+        }
+    }, 1000);
+}
+
+function nextPrompt() {
+    const nextBtn = document.getElementById("nextBtn");
+    nextBtn.style.display = "none";
+    // Advance within the randomized order
+    orderPos += 1;
+    if (orderPos >= order.length) {
+        shuffle(order);
+        orderPos = 0;
+    }
+    showPrompt();
+}
+
+function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+}
+</script>
+
+</body>
+</html>
